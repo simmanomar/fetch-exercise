@@ -7,23 +7,32 @@ fetch("https://picsum.photos/v2/list")
     const container = document.getElementById("image-container"); // insert the json data inside the img container div
 
     
-    data.forEach(photo => {  
+    const randomPhotos = data //
+    .sort(() => Math.random() - 0.5) //shuffles the images in the array randomly
+    .slice(0, 12); //slices the array into showing only 12 images on the page
+
+    randomPhotos.forEach(photo => {
+
       const img = document.createElement("img"); 
-      img.src = `https://picsum.photos/300/200?random=${photo.id}`; // random images each time the page loads
+      img.src = `https://picsum.photos/id/${photo.id}/300/200`; 
       
       const imgDiv = document.createElement("div");
       imgDiv.classList.add("image-card"); //for styling
 
+      const photographer = document.createElement("p");
+      photographer.textContent = `Photo by ${photo.author}`;
+
       imgDiv.appendChild(img);
+      imgDiv.appendChild(photographer);
       container.appendChild(imgDiv);
-      
+
     });
 
 })
 .catch(error => console.log("Error:", error));
 
-//button
-const button = document.createElement("button")
+
+//scroll to top button 
 button.textContent = '⇧';
 button.classList.add('scroll-to-top'); //adds class so you can style it in css
 
@@ -44,4 +53,15 @@ button.addEventListener('click', () => {
     behavior: 'smooth'
   });
 });
+
+//load more button
+const loadButton = document.createElement("button");
+loadButton.textContent = "Load more";
+loadButton.classList.add("load-more");
+
+document.body.appendChild(loadButton);
+
+
+
+
 
